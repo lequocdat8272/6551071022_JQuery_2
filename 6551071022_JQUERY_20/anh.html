@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Slideshow</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="Styles/style.css">
+</head>
+<body>
+
+    <div class="slideshow-container">
+        <div class="slideshow-viewport">
+            <div class="slideshow-wrapper">
+                <div class="slide"><img src="https://flowersight.com/wp-content/uploads/2023/10/lang-hoa-hong-dep-tai-flowersight-min.jpg" alt="Hoa 1"></div>
+                <div class="slide"><img src="https://hoatuoihuythao.com/upload/sanpham/bohoadep188.jpg" alt="Hoa 2"></div>
+                <div class="slide"><img src="https://hoatuoiciti.com/upload/filemanager/images/275620225_3071738709755733_7832241443531568523_n.jpg" alt="Hoa 3"></div>
+                <div class="slide"><img src="https://dienhoasieutoc.com/upload/sanpham/hoa-tien-500k-bua-yeu-8208.jpg" alt="Hoa 4"></div>
+                <div class="slide"><img src="https://hoatuoi360.vn/uploads/file/hoatuoi360-%20hop%20hoa%20nhua%20song%206002.jpg" alt="Hoa 5"></div>
+                <div class="slide"><img src="https://hoa18.com/wp-content/uploads/2021/07/gio_hoa_tuoi_hoa18_img_9138.jpg" alt="Hoa 6"></div>
+                <div class="slide"><img src="https://cdn.litiflorist.com/upload/1708478164610.png" alt="Hoa 7"></div>
+                <div class="slide"><img src="https://hoaviet247.com/wp-content/uploads/2024/07/bo-hoa-tuoi-bh008-trai-tim.jpg" alt="Hoa 8"></div>
+            </div>
+        </div>
+        
+        <button class="nav-arrow prev-arrow">❮</button>
+        <button class="nav-arrow next-arrow">❯</button>
+    </div>
+
+    <script>
+    $(document).ready(function() {
+        const wrapper = $('.slideshow-wrapper');
+        
+        const slideWidth = $('.slide').outerWidth(true); 
+        let autoPlayInterval;
+
+        function moveSlide(direction) {
+            if (direction === 1) {
+                
+                wrapper.animate({
+                    'margin-left': -slideWidth
+                }, 500, function() {
+                    
+                    wrapper.find('.slide:first').appendTo(wrapper);
+                    
+                    wrapper.css('margin-left', 0);
+                });
+            } else {
+                
+                wrapper.find('.slide:last').prependTo(wrapper);
+                
+                wrapper.css('margin-left', -slideWidth);
+               
+                wrapper.animate({
+                    'margin-left': 0
+                }, 500);
+            }
+        }
+
+        function startAutoPlay() {
+            autoPlayInterval = setInterval(function() {
+                moveSlide(1);
+            }, 1000);
+        }
+        
+        function stopAutoPlay() {
+            clearInterval(autoPlayInterval);
+        }
+
+        $('.next-arrow').click(function() {
+            moveSlide(1);
+        });
+
+        $('.prev-arrow').click(function() {
+            moveSlide(-1);
+        });
+        
+        $('.slideshow-container').hover(
+            function() { stopAutoPlay(); },
+            function() { startAutoPlay(); }
+        );
+
+        startAutoPlay();
+    });
+    </script>
+
+</body>
+</html>

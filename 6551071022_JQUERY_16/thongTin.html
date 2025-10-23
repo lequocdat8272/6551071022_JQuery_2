@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý User - Jquery</title>
+    <link rel="stylesheet" href="Styles/style.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <div class="form-container">
+            <h2>Quản lý thông tin user</h2>
+            <form id="add-user-form">
+                <input type="text" id="name-input" placeholder="Name" required>
+                <input type="email" id="email-input" placeholder="Email Address" required>
+                <input type="date" id="birthdate-input" placeholder="Birthdate" required>
+                <button type="submit" id="add-row-btn">Add Row</button>
+            </form>
+        </div>
+
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Birthdate</th>
+                </tr>
+            </thead>
+            <tbody>
+                </tbody>
+        </table>
+
+        <button id="delete-row-btn">Delete Row</button>
+    </div>
+    <script>
+    $(document).ready(function() {
+
+        function isValidEmail(email) {
+            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            return emailRegex.test(email);
+        }
+
+        $('#add-user-form').on('submit', function(event) {
+            event.preventDefault();
+
+            const name = $('#name-input').val().trim();
+            const email = $('#email-input').val().trim();
+            const birthdate = $('#birthdate-input').val();
+
+            if (!name || !email || !birthdate) {
+                alert('Vui lòng nhập đầy đủ thông tin!');
+                return;
+            }
+
+            if (!isValidEmail(email)) {
+                alert('Định dạng email không hợp lệ. Vui lòng kiểm tra lại!');
+                return;
+            }
+
+            const newRow = `
+                <tr>
+                    <td><input type="checkbox" class="row-checkbox"></td>
+                    <td>${name}</td>
+                    <td>${email}</td>
+                    <td>${birthdate}</td>
+                </tr>
+            `;
+
+            $('.user-table tbody').append(newRow);
+
+            $('#add-user-form')[0].reset();
+        });
+
+
+        $('#delete-row-btn').on('click', function() {
+            const checkedBoxes = $('.user-table tbody .row-checkbox:checked');
+            
+            if (checkedBoxes.length === 0) {
+                alert('Vui lòng chọn ít nhất một hàng để xóa!');
+                return;
+            }
+
+            checkedBoxes.each(function() {
+                $(this).closest('tr').remove();
+            });
+        });
+    });
+    </script>
+</body>
+</html>

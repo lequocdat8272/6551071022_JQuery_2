@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Work To-Dos</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <link rel="stylesheet" href="Styles/style.css">
+</head>
+<body>
+
+<div id="todo-container">
+    <div class="header">
+        <h1>WORK TO-DOS</h1>
+        <p>Enter text into the input field to add items to your list.</p>
+        <p>Click the item to mark it as complete.</p>
+        <p>Click the "X" to remove the item from your list.</p>
+    </div>
+
+    <div class="input-group">
+        <input type="text" id="new-item-input" placeholder="New Item...">
+        <button id="add-item-btn">✎</button>
+    </div>
+    
+    <ul id="todo-list">
+        <li class="completed"><span class="item-text">Làm Bài Tập Làm Thêm</span><span class="delete-btn">x</span></li>
+        <li><span class="item-text">Học Lập Trình Web</span><span class="delete-btn">x</span></li>
+    </ul>
+</div>
+
+<script>
+$(document).ready(function() {
+
+    function addItem() {
+        const itemText = $('#new-item-input').val().trim();
+
+        if (itemText !== '') {
+            const newItem = $('<li><span class="item-text">' + itemText + '</span><span class="delete-btn">x</span></li>');
+            
+            $('#todo-list').append(newItem);
+            
+            $('#new-item-input').val('');
+        }
+    }
+
+    $('#add-item-btn').click(addItem);
+
+    $('#new-item-input').keypress(function(event) {
+        if (event.which === 13) {
+            addItem();
+        }
+    });
+
+    $('#todo-list').on('click', 'li', function() {
+        $(this).toggleClass('completed');
+    });
+
+    $('#todo-list').on('click', '.delete-btn', function(event) {
+        event.stopPropagation(); 
+        
+        $(this).parent().fadeOut(500, function() {
+            $(this).remove();
+        });
+    });
+
+});
+</script>
+
+</body>
+</html>
